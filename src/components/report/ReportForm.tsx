@@ -7,9 +7,9 @@ import { Loader2, MapPin, RefreshCw } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CIVIC_CATEGORIES, DEFAULT_COORDINATES } from "@/lib/constants";
+import { analyzeImageWithPuter } from "@/lib/puter";
 import { saveReport } from "@/lib/firebase/reports";
 import type { CivicCategory, SeverityLevel } from "@/lib/types";
-import { fileToBase64 } from "@/lib/utils";
 import { useGeolocation } from "@/hooks/useGeolocation";
 
 const severityOptions: SeverityLevel[] = ["Low", "Medium", "High"];
@@ -32,30 +32,19 @@ export function ReportForm() {
     setIsAnalyzing(true);
     setAnalysisMessage(null);
     try {
-      const base64 = await fileToBase64(file);
-      const response = await fetch("/api/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ base64Image: base64, mimeType: file.type }),
-      });
-
-      if (!response.ok) {
-        throw new Error("AI tagging failed");
-      }
-
-      const data = await response.json();
-      if (!data?.result) {
-        setAnalysisMessage("Gemini didn't spot a civic issue. You can still file manually.");
+      const result = await analyzeImageWithPuter(file);
+      if (!result) {
+        setAnalysisMessage("Puter AI didn't spot a civic issue. You can still file manually.");
         return;
       }
 
-      setCategory(data.result.category);
-      setSeverity(data.result.severity);
-      setDescription(data.result.description);
-      setAnalysisMessage(`Tagging complete -> ${data.result.category} (${data.result.severity}).`);
+      setCategory(result.category);
+      setSeverity(result.severity);
+      setDescription(result.description);
+      setAnalysisMessage(`Tagging complete -> ${result.category} (${result.severity}).`);
     } catch (error) {
       console.error(error);
-      setAnalysisMessage("Couldn't talk to Gemini. Try again or submit manually.");
+      setAnalysisMessage("Couldn't talk to Puter AI. Try again or submit manually.");
     } finally {
       setIsAnalyzing(false);
     }
@@ -112,7 +101,7 @@ export function ReportForm() {
           className="w-full rounded-2xl border border-dashed border-emerald-300 bg-emerald-50/50 p-4 text-sm file:mr-4 file:rounded-full file:border-0 file:bg-emerald-500 file:px-4 file:py-2 file:font-semibold file:text-white"
           required
         />
-        <p className="text-xs text-slate-500">Tip: point at the issue and let Gemini auto-tag it for you.</p>
+        <p className="text-xs text-slate-500">Tip: point at the issue and let Puter AI auto-tag it for you.</p>
       </div>
 
       <div className="space-y-2">
@@ -170,7 +159,7 @@ export function ReportForm() {
       <div className="space-y-2">
         <label className="text-sm font-semibold text-slate-600">AI Summary</label>
         <textarea
-          placeholder="Gemini will drop a one-liner summary here."
+          placeholder="Puter AI will drop a one-liner summary here."
           className="h-24 w-full rounded-2xl border border-slate-200 bg-white/70 p-4 text-sm focus:border-emerald-400 focus:outline-none"
           value={description}
           onChange={(event) => setDescription(event.target.value)}
@@ -180,7 +169,7 @@ export function ReportForm() {
       <div className="flex flex-col gap-3">
         <Button type="button" disabled={!file || isAnalyzing} onClick={handleAnalyze} variant="secondary">
           {isAnalyzing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-          Run Gemini Vision
+          Run Puter Vision
         </Button>
         <AnimatePresence mode="wait">
           {analysisMessage && (

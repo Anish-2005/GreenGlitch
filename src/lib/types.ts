@@ -8,7 +8,7 @@ export type CivicCategory =
 
 export type SeverityLevel = "Low" | "Medium" | "High";
 
-export interface GeminiTaggingResult {
+export interface AITaggingResult {
   category: CivicCategory;
   severity: SeverityLevel;
   description: string;

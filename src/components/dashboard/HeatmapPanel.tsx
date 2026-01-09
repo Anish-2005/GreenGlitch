@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { APIProvider, HeatmapLayer, Map } from "@vis.gl/react-google-maps";
+import { APIProvider, Map, useMap } from "@vis.gl/react-google-maps";
 import { AlertTriangle, Compass, MapPin } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +11,38 @@ import type { CivicReport } from "@/lib/types";
 import { formatTimestamp, severityToWeight } from "@/lib/utils";
 
 const GOOGLE_MAPS_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "";
+
+type WeightedHeatmapPoint = {
+  location: { lat: number; lng: number };
+  weight: number;
+};
+
+function HeatmapOverlay({ data }: { data: WeightedHeatmapPoint[] }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!map || typeof window === "undefined" || !window.google?.maps?.visualization) {
+      return;
+    }
+
+    const heatmap = new window.google.maps.visualization.HeatmapLayer({
+      data: data.map((point) => ({
+        location: new window.google.maps.LatLng(point.location.lat, point.location.lng),
+        weight: point.weight,
+      })),
+      dissipating: true,
+      radius: 32,
+    });
+
+    heatmap.setMap(map);
+
+    return () => {
+      heatmap.setMap(null);
+    };
+  }, [map, data]);
+
+  return null;
+}
 
 export function HeatmapPanel() {
   const [reports, setReports] = useState<CivicReport[]>([]);
@@ -32,7 +64,11 @@ export function HeatmapPanel() {
   return (
     <section className="grid gap-6 lg:grid-cols-[3fr,2fr]">
       <div className="overflow-hidden rounded-3xl border border-white/10 bg-slate-950/90 shadow-xl">
-        <APIProvider apiKey={GOOGLE_MAPS_KEY} onLoad={() => console.info("Google Maps ready")}>
+        <APIProvider
+          apiKey={GOOGLE_MAPS_KEY}
+          onLoad={() => console.info("Google Maps ready")}
+          libraries={['visualization']}
+        >
           <Map
             defaultZoom={13}
             defaultCenter={DEFAULT_COORDINATES}
@@ -41,7 +77,7 @@ export function HeatmapPanel() {
             mapId="civic-heatmap"
             style={{ height: 480, width: "100%" }}
           >
-            <HeatmapLayer data={heatmapData} options={{ radius: 32, dissipating: true }} />
+            <HeatmapOverlay data={heatmapData} />
           </Map>
         </APIProvider>
       </div>

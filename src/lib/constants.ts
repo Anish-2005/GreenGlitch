@@ -26,5 +26,5 @@ export const DEFAULT_COORDINATES = {
 
 export const HEATMAP_MAX_INTENSITY = 5;
 
-export const GEMINI_PROMPT =
+export const AUTO_TAG_PROMPT =
   "Analyze this image. Identify if there is a civic issue (Garbage, Pothole, Broken Light, Waterlogging, Safety Hazard). Return a JSON object with: { \"category\": \"...\", \"severity\": \"High/Medium/Low\", \"description\": \"Short 1 sentence summary\" }. If no issue is found, return null.";
