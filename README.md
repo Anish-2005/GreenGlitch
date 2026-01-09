@@ -34,15 +34,15 @@ GreenGlitch is a Progressive Web App that lets students and citizens flag overfl
 | 2 | Build the mobile-first capture UI with a giant “Report Issue” CTA. |
 | 3 | Integrate Gemini Flash and parse JSON output. |
 | 4 | Persist reports to Firestore/Storage. |
-| 5 | Render Google Maps heatmap & live feed dashboard. |
+| 5 | Render OpenStreetMap heatmap & live feed dashboard. |
 | 6 | Polish: loading states, success animation, manifesto-ready copy. |
 
 ## Getting Started
 
 1. Copy `.env.example` -> `.env.local` and fill in:
 	- Firebase web config (API key, project ID, storage bucket, etc.)
-	- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`
 	- `GEMINI_API_KEY` from Google AI Studio
+	- (OpenStreetMap tiles are public, so no map API key is required.)
 2. Install and run:
 
 ```bash

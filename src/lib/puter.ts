@@ -22,12 +22,16 @@ const PUTER_MODEL = "gemini-2.5-flash-lite";
 
 let puterSdkPromise: Promise<PuterSdk> | null = null;
 
-function extractJsonBlock(raw: string) {
-  if (!raw) return null;
-  const trimmed = raw.trim().toLowerCase();
+function extractJsonBlock(raw: unknown) {
+  if (raw == null) {
+    return null;
+  }
+
+  const text = typeof raw === "string" ? raw : JSON.stringify(raw);
+  const trimmed = text.trim().toLowerCase();
   if (trimmed === "null") return "null";
-  const jsonMatch = raw.match(/\{[\s\S]*\}/);
-  return jsonMatch?.[0] ?? raw;
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  return jsonMatch?.[0] ?? text;
 }
 
 async function ensurePuterSdk(): Promise<PuterSdk> {
@@ -78,7 +82,7 @@ export async function analyzeImageWithPuter(file: File): Promise<AITaggingResult
       ? response
       : (typeof response === "object" && response !== null && "message" in response
           ? (response as { message?: string }).message
-          : (response as { output?: string }).output) ?? "";
+          : (response as { output?: string }).output);
   const jsonBlock = extractJsonBlock(rawText);
 
   if (!jsonBlock || jsonBlock === "null") {
@@ -87,7 +91,8 @@ export async function analyzeImageWithPuter(file: File): Promise<AITaggingResult
 
   const parsed = PuterResponseSchema.safeParse(JSON.parse(jsonBlock));
   if (!parsed.success) {
-    throw new Error(`Puter response mismatch: ${parsed.error.message}`);
+    console.warn("Puter response mismatch", parsed.error.flatten());
+    return null;
   }
 
   if (!parsed.data) {

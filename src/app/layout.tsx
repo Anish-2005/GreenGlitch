@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 
 import { PROJECT_NAME, TAGLINE } from "@/lib/constants";
+import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
 const grotesk = Space_Grotesk({
