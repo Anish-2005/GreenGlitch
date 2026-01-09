@@ -6,7 +6,7 @@ const problemStatement =
   "Local communities and university campuses frequently suffer from maintenance neglect--whether it's overflowing dustbins, broken streetlights, or dangerous potholes. The current reporting mechanisms are often tedious, requiring users to navigate complex forms, manually type descriptions, and categorize issues. This friction discourages students and citizens from reporting problems, leaving authorities unaware of the ground reality.";
 
 const solutionStatement =
-  "GreenGlitch is a Progressive Web App (PWA) that streamlines civic reporting into a single click. Leveraging Google's Gemini 1.5 Flash, the app automatically analyzes user-uploaded photos to identify the issue (e.g., Garbage, Pothole) and assesses its severity. Combined with the Google Maps Platform, it visualizes these reports on a public heatmap, allowing authorities to identify high-priority zones instantly. It removes the need for manual data entry, making civic engagement effortless.";
+  "GreenGlitch is a Progressive Web App (PWA) that streamlines civic reporting into a single click. Leveraging Puter AI's browser SDK (backed by Gemini 2.5 Flash Lite), the app automatically analyzes user-uploaded photos to identify the issue (e.g., Garbage, Pothole) and assesses its severity. Combined with the Google Maps Platform, it visualizes these reports on a public heatmap, allowing authorities to identify high-priority zones instantly. It removes the need for manual data entry, making civic engagement effortless.";
 
 const executionPlan = [
   {
@@ -19,7 +19,7 @@ const executionPlan = [
   },
   {
     label: "Hour 3",
-    detail: "Integrate Gemini Flash with the structured JSON prompt for auto-tagging.",
+    detail: "Integrate Puter AI chat with the structured JSON prompt for auto-tagging.",
   },
   {
     label: "Hour 4",
@@ -70,7 +70,7 @@ export default function Home() {
             </div>
             <div className="grid gap-4 text-sm text-slate-400 sm:grid-cols-2">
               <div>
-                <p className="text-xl font-semibold text-white">Gemini Flash</p>
+                <p className="text-xl font-semibold text-white">Puter AI</p>
                 <p>Structured JSON tagging (category + severity + summary) in under 2 seconds.</p>
               </div>
               <div>
@@ -93,7 +93,7 @@ export default function Home() {
             <ul className="mt-4 space-y-3 text-sm text-slate-200">
               <li><span className="font-semibold text-white">Frontend:</span> Next.js 14 + Tailwind CSS PWA shell.</li>
               <li><span className="font-semibold text-white">Backend:</span> Firebase Firestore & Storage (serverless + realtime).</li>
-              <li><span className="font-semibold text-white">AI:</span> Gemini 1.5 Flash via Google AI Studio API key.</li>
+              <li><span className="font-semibold text-white">AI:</span> Puter AI SDK tapping into Gemini 2.5 Flash Lite.</li>
               <li><span className="font-semibold text-white">Maps:</span> Google Maps JS API with Visualization heatmap.</li>
             </ul>
           </div>
@@ -103,7 +103,7 @@ export default function Home() {
               <li>
                 <span className="font-semibold text-white">Capture:</span> <code className="text-emerald-200">&lt;input type=&quot;file&quot; capture=&quot;environment&quot; /&gt;</code> opens the camera instantly.
               </li>
-              <li><span className="font-semibold text-white">Analyze:</span> Image - Base64 - Gemini Flash - structured JSON tags.</li>
+              <li><span className="font-semibold text-white">Analyze:</span> Camera photo → Puter AI chat → structured JSON tags.</li>
               <li><span className="font-semibold text-white">Store:</span> Upload photo to Firebase Storage, metadata to Firestore.</li>
               <li><span className="font-semibold text-white">Visualize:</span> Weighted Google Maps heatmap exposing civic hotspots.</li>
             </ol>

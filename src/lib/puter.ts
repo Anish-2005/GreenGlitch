@@ -3,6 +3,12 @@ import { z } from "zod";
 import { AUTO_TAG_PROMPT, CIVIC_CATEGORIES } from "./constants";
 import type { AITaggingResult } from "./types";
 
+type PuterSdk = {
+  ai?: {
+    chat<T = unknown>(prompt: string, input?: File | Blob | string | null, options?: Record<string, unknown>): Promise<T>;
+  };
+};
+
 const PuterResponseSchema = z
   .object({
     category: z.string(),
@@ -14,7 +20,7 @@ const PuterResponseSchema = z
 const PUTER_SCRIPT_URL = "https://js.puter.com/v2/";
 const PUTER_MODEL = "gemini-2.5-flash-lite";
 
-let puterSdkPromise: Promise<typeof window.puter> | null = null;
+let puterSdkPromise: Promise<PuterSdk> | null = null;
 
 function extractJsonBlock(raw: string) {
   if (!raw) return null;
@@ -24,7 +30,7 @@ function extractJsonBlock(raw: string) {
   return jsonMatch?.[0] ?? raw;
 }
 
-async function ensurePuterSdk(): Promise<typeof window.puter> {
+async function ensurePuterSdk(): Promise<PuterSdk> {
   if (typeof window === "undefined") {
     throw new Error("Puter SDK requires a browser environment");
   }
@@ -67,7 +73,12 @@ export async function analyzeImageWithPuter(file: File): Promise<AITaggingResult
     model: PUTER_MODEL,
   });
 
-  const rawText = typeof response === "string" ? response : response?.message ?? response?.output ?? "";
+  const rawText =
+    typeof response === "string"
+      ? response
+      : (typeof response === "object" && response !== null && "message" in response
+          ? (response as { message?: string }).message
+          : (response as { output?: string }).output) ?? "";
   const jsonBlock = extractJsonBlock(rawText);
 
   if (!jsonBlock || jsonBlock === "null") {
@@ -79,6 +90,9 @@ export async function analyzeImageWithPuter(file: File): Promise<AITaggingResult
     throw new Error(`Puter response mismatch: ${parsed.error.message}`);
   }
 
+  if (!parsed.data) {
+    return null;
+  }
   const { category, severity, description } = parsed.data;
   const normalizedCategory = CIVIC_CATEGORIES.includes(category as AITaggingResult["category"])
     ? (category as AITaggingResult["category"])
