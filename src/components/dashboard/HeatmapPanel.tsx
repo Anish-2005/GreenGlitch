@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { APIProvider, Map, useMap } from "@vis.gl/react-google-maps";
+import L from "leaflet";
+import "leaflet.heat";
+import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import { AlertTriangle, Compass, MapPin } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -10,36 +12,37 @@ import { DEFAULT_COORDINATES, SEVERITY_BADGES, TAGLINE } from "@/lib/constants";
 import type { CivicReport } from "@/lib/types";
 import { formatTimestamp, severityToWeight } from "@/lib/utils";
 
-const GOOGLE_MAPS_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "";
+const OSM_TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+const OSM_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
-type WeightedHeatmapPoint = {
-  location: { lat: number; lng: number };
-  weight: number;
-};
+type HeatmapTuple = [number, number, number];
 
-function HeatmapOverlay({ data }: { data: WeightedHeatmapPoint[] }) {
+function HeatmapOverlay({ points }: { points: HeatmapTuple[] }) {
   const map = useMap();
 
   useEffect(() => {
-    if (!map || typeof window === "undefined" || !window.google?.maps?.visualization) {
+    if (!map || !points.length) {
       return;
     }
 
-    const heatmap = new window.google.maps.visualization.HeatmapLayer({
-      data: data.map((point) => ({
-        location: new window.google.maps.LatLng(point.location.lat, point.location.lng),
-        weight: point.weight,
-      })),
-      dissipating: true,
-      radius: 32,
+    const heatmap = L.heatLayer(points, {
+      radius: 35,
+      blur: 25,
+      maxZoom: 17,
+      minOpacity: 0.25,
+      gradient: {
+        0.1: "#22c55e",
+        0.5: "#eab308",
+        0.9: "#dc2626",
+      },
     });
 
-    heatmap.setMap(map);
+    heatmap.addTo(map);
 
     return () => {
-      heatmap.setMap(null);
+      heatmap.remove();
     };
-  }, [map, data]);
+  }, [map, points]);
 
   return null;
 }
@@ -54,32 +57,25 @@ export function HeatmapPanel() {
     return () => unsubscribe();
   }, []);
 
-  const heatmapData = useMemo(() => {
-    return reports.map((report) => ({
-      location: { lat: report.lat, lng: report.lng },
-      weight: severityToWeight(report.severity),
-    }));
+  const heatmapPoints = useMemo<HeatmapTuple[]>(() => {
+    return reports.map((report) => [report.lat, report.lng, severityToWeight(report.severity)]);
   }, [reports]);
+
+  const mapCenter: [number, number] = [DEFAULT_COORDINATES.lat, DEFAULT_COORDINATES.lng];
 
   return (
     <section className="grid gap-6 lg:grid-cols-[3fr,2fr]">
       <div className="overflow-hidden rounded-3xl border border-white/10 bg-slate-950/90 shadow-xl">
-        <APIProvider
-          apiKey={GOOGLE_MAPS_KEY}
-          onLoad={() => console.info("Google Maps ready")}
-          libraries={['visualization']}
+        <MapContainer
+          center={mapCenter}
+          zoom={13}
+          scrollWheelZoom
+          style={{ height: 480, width: "100%" }}
+          className="h-full w-full"
         >
-          <Map
-            defaultZoom={13}
-            defaultCenter={DEFAULT_COORDINATES}
-            gestureHandling="greedy"
-            disableDefaultUI
-            mapId="civic-heatmap"
-            style={{ height: 480, width: "100%" }}
-          >
-            <HeatmapOverlay data={heatmapData} />
-          </Map>
-        </APIProvider>
+          <TileLayer attribution={OSM_ATTRIBUTION} url={OSM_TILE_URL} />
+          <HeatmapOverlay points={heatmapPoints} />
+        </MapContainer>
       </div>
 
       <div className="flex flex-col gap-4 rounded-3xl border border-white/10 bg-white/80 p-6">

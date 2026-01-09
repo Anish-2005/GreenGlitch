@@ -4,12 +4,12 @@
 
 > **Tagline:** Empowering communities to report civic issues in seconds using AI and geolocation.
 
-GreenGlitch is a Progressive Web App that lets students and citizens flag overflowing dustbins, potholes, broken lights, and other hazards without navigating clunky civic portals. Snap a photo, let Gemini 1.5 Flash auto-tag it, and watch the report light up a public Google Maps heatmap backed by Firebase.
+GreenGlitch is a Progressive Web App that lets students and citizens flag overflowing dustbins, potholes, broken lights, and other hazards without navigating clunky civic portals. Snap a photo, let Puter AI (Gemini 2.5 Flash Lite) auto-tag it, and watch the report light up a public OpenStreetMap heatmap backed by Firebase.
 
 ## Problem -> Solution (Copy/Paste Ready)
 
 - **Problem:** Local communities and university campuses frequently suffer from maintenance neglect. Reporting tools are form-heavy and discourage participation, leaving authorities blind to what's happening on the ground.
-- **Solution:** GreenGlitch condenses civic reporting into a single click. The PWA captures a geotagged photo, sends it to Gemini Vision for structured JSON tagging (`{ category, severity, description }`), uploads to Firebase Storage, and stores metadata in Firestore. Google Maps Visualization renders a severity‑weighted heatmap for decision makers.
+- **Solution:** GreenGlitch condenses civic reporting into a single click. The PWA captures a geotagged photo, streams it to Puter AI for structured JSON tagging (`{ category, severity, description }`), uploads to Firebase Storage, and stores metadata in Firestore. Leaflet renders a severity‑weighted heatmap on top of OpenStreetMap tiles for decision makers.
 
 ## Architecture for Hackathon Speed
 
@@ -17,14 +17,14 @@ GreenGlitch is a Progressive Web App that lets students and citizens flag overfl
 | --- | --- | --- |
 | Frontend | Next.js 14 (App Router) + Tailwind CSS | Ships as a PWA with offline manifest + shareable routes (`/report`, `/dashboard`). |
 | Data | Firebase Firestore + Firebase Storage | Zero-config, real-time updates straight to the dashboard heatmap. |
-| AI | Gemini 1.5 Flash (Google AI Studio) | Structured JSON output with category + severity + summary. |
-| Maps | Google Maps JavaScript API + Visualization Library | Weighted heatmap displays civic hotspots instantly. |
+| AI | Puter AI SDK (Gemini 2.5 Flash Lite) | Structured JSON output with category + severity + summary. |
+| Maps | OpenStreetMap tiles + Leaflet heat layer | Weighted heatmap displays civic hotspots instantly with no API keys. |
 
 ### Workflow Logic
 1. **Capture:** `<input type="file" capture="environment" />` opens the mobile camera immediately.
-2. **Analyze:** Image -> Base64 -> Gemini Flash prompt -> JSON classification.
+2. **Analyze:** Image -> File stream -> Puter AI chat -> JSON classification.
 3. **Store:** Upload image to Firebase Storage and metadata to Firestore.
-4. **Visualize:** Feed Firestore snapshots into Google Maps heatmap (severity = weight).
+4. **Visualize:** Feed Firestore snapshots into a Leaflet/OpenStreetMap heatmap (severity = weight).
 
 ### Hour-by-Hour Execution Plan
 
