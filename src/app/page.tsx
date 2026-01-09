@@ -3,10 +3,10 @@ import Link from "next/link";
 import { TAGLINE } from "@/lib/constants";
 
 const problemStatement =
-  "Local communities and university campuses frequently suffer from maintenance neglect—whether it’s overflowing dustbins, broken streetlights, or dangerous potholes. The current reporting mechanisms are often tedious, requiring users to navigate complex forms, manually type descriptions, and categorize issues. This friction discourages students and citizens from reporting problems, leaving authorities unaware of the ground reality.";
+  "Local communities and university campuses frequently suffer from maintenance neglect--whether it's overflowing dustbins, broken streetlights, or dangerous potholes. The current reporting mechanisms are often tedious, requiring users to navigate complex forms, manually type descriptions, and categorize issues. This friction discourages students and citizens from reporting problems, leaving authorities unaware of the ground reality.";
 
 const solutionStatement =
-  "GreenGlitch is a Progressive Web App (PWA) that streamlines civic reporting into a single click. Leveraging Google’s Gemini 1.5 Flash, the app automatically analyzes user-uploaded photos to identify the issue (e.g., Garbage, Pothole) and assesses its severity. Combined with the Google Maps Platform, it visualizes these reports on a public heatmap, allowing authorities to identify high-priority zones instantly. It removes the need for manual data entry, making civic engagement effortless.";
+  "GreenGlitch is a Progressive Web App (PWA) that streamlines civic reporting into a single click. Leveraging Google's Gemini 1.5 Flash, the app automatically analyzes user-uploaded photos to identify the issue (e.g., Garbage, Pothole) and assesses its severity. Combined with the Google Maps Platform, it visualizes these reports on a public heatmap, allowing authorities to identify high-priority zones instantly. It removes the need for manual data entry, making civic engagement effortless.";
 
 const executionPlan = [
   {
@@ -51,7 +51,7 @@ export default function Home() {
               Crowd-source cleanliness
             </p>
             <h1 className="text-5xl font-semibold leading-tight">
-              GreenGlitch — report civic issues in seconds with AI + Geolocation.
+              GreenGlitch -- report civic issues in seconds with AI + Geolocation.
             </h1>
             <p className="text-lg text-slate-300">{TAGLINE}</p>
             <div className="flex flex-wrap gap-4">
@@ -80,7 +80,7 @@ export default function Home() {
             </div>
           </div>
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-300">Problem → Solution</h2>
+            <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-300">Problem -> Solution</h2>
             <p className="mt-4 text-sm text-slate-200">{problemStatement}</p>
             <div className="my-6 h-px w-full bg-gradient-to-r from-transparent via-white/30 to-transparent" />
             <p className="text-sm text-slate-200">{solutionStatement}</p>
@@ -104,7 +104,7 @@ export default function Home() {
                 <span className="font-semibold text-white">Capture:</span> <code className="text-emerald-200">&lt;input
                   type="file" capture="environment" /&gt;</code> opens the camera instantly.
               </li>
-              <li><span className="font-semibold text-white">Analyze:</span> Image → Base64 → Gemini Flash → structured JSON tags.</li>
+              <li><span className="font-semibold text-white">Analyze:</span> Image -> Base64 -> Gemini Flash -> structured JSON tags.</li>
               <li><span className="font-semibold text-white">Store:</span> Upload photo to Firebase Storage, metadata to Firestore.</li>
               <li><span className="font-semibold text-white">Visualize:</span> Weighted Google Maps heatmap exposing civic hotspots.</li>
             </ol>

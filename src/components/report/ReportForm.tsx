@@ -44,17 +44,17 @@ export function ReportForm() {
 
       const data = await response.json();
       if (!data?.result) {
-        setAnalysisMessage("Gemini didn’t spot a civic issue. You can still file manually.");
+        setAnalysisMessage("Gemini didn't spot a civic issue. You can still file manually.");
         return;
       }
 
       setCategory(data.result.category);
       setSeverity(data.result.severity);
       setDescription(data.result.description);
-      setAnalysisMessage(`Tagging complete → ${data.result.category} (${data.result.severity}).`);
+      setAnalysisMessage(`Tagging complete -> ${data.result.category} (${data.result.severity}).`);
     } catch (error) {
       console.error(error);
-      setAnalysisMessage("Couldn’t talk to Gemini. Try again or submit manually.");
+      setAnalysisMessage("Couldn't talk to Gemini. Try again or submit manually.");
     } finally {
       setIsAnalyzing(false);
     }
@@ -77,6 +77,10 @@ export function ReportForm() {
       });
       setSuccessId(result.id);
       setFile(null);
+      setDescription("");
+      setAnalysisMessage("Report published to Firebase.");
+      setCategory("Garbage");
+      setSeverity("Medium");
     } catch (error) {
       console.error(error);
       setAnalysisMessage("Upload failed. Check your Firebase config and try again.");

@@ -24,8 +24,7 @@ export function HeatmapPanel() {
 
   const heatmapData = useMemo(() => {
     return reports.map((report) => ({
-      lat: report.lat,
-      lng: report.lng,
+      location: { lat: report.lat, lng: report.lng },
       weight: severityToWeight(report.severity),
     }));
   }, [reports]);

@@ -1,4 +1,4 @@
-import { GEMINI_PROMPT } from "./constants";
+import { CIVIC_CATEGORIES, GEMINI_PROMPT } from "./constants";
 import type { GeminiTaggingResult } from "./types";
 import { z } from "zod";
 
@@ -73,7 +73,9 @@ export async function analyzeImageWithGemini(
   }
 
   const { category, severity, description } = parsed.data;
-  const normalizedCategory = category as GeminiTaggingResult["category"];
+  const normalizedCategory = CIVIC_CATEGORIES.includes(category as GeminiTaggingResult["category"])
+    ? (category as GeminiTaggingResult["category"])
+    : "Other";
 
   return { category: normalizedCategory, severity, description };
 }
