@@ -17,7 +17,6 @@ const missing = Object.entries(firebaseConfig)
   .map(([key]) => key);
 
 if (missing.length) {
-  // eslint-disable-next-line no-console
   console.warn(
     `GreenGlitch › Missing Firebase env vars: ${missing.join(", ")}. The client SDK will fail without them.`,
   );

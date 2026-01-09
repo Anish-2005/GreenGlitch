@@ -80,7 +80,7 @@ export default function Home() {
             </div>
           </div>
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-300">Problem -> Solution</h2>
+            <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-300">Problem - Solution</h2>
             <p className="mt-4 text-sm text-slate-200">{problemStatement}</p>
             <div className="my-6 h-px w-full bg-gradient-to-r from-transparent via-white/30 to-transparent" />
             <p className="text-sm text-slate-200">{solutionStatement}</p>
@@ -101,10 +101,9 @@ export default function Home() {
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">Workflow</p>
             <ol className="mt-4 space-y-4 text-sm text-slate-200">
               <li>
-                <span className="font-semibold text-white">Capture:</span> <code className="text-emerald-200">&lt;input
-                  type="file" capture="environment" /&gt;</code> opens the camera instantly.
+                <span className="font-semibold text-white">Capture:</span> <code className="text-emerald-200">&lt;input type=&quot;file&quot; capture=&quot;environment&quot; /&gt;</code> opens the camera instantly.
               </li>
-              <li><span className="font-semibold text-white">Analyze:</span> Image -> Base64 -> Gemini Flash -> structured JSON tags.</li>
+              <li><span className="font-semibold text-white">Analyze:</span> Image - Base64 - Gemini Flash - structured JSON tags.</li>
               <li><span className="font-semibold text-white">Store:</span> Upload photo to Firebase Storage, metadata to Firestore.</li>
               <li><span className="font-semibold text-white">Visualize:</span> Weighted Google Maps heatmap exposing civic hotspots.</li>
             </ol>

@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, MapPin, RefreshCw } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { CIVIC_CATEGORIES, DEFAULT_COORDINATES } from "@/lib/constants";
+import { saveReport } from "@/lib/firebase/reports";
 import type { CivicCategory, SeverityLevel } from "@/lib/types";
 import { fileToBase64 } from "@/lib/utils";
-import { saveReport } from "@/lib/firebase/reports";
 import { useGeolocation } from "@/hooks/useGeolocation";
 
 const severityOptions: SeverityLevel[] = ["Low", "Medium", "High"];
@@ -23,6 +23,7 @@ export function ReportForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [analysisMessage, setAnalysisMessage] = useState<string | null>(null);
   const [successId, setSuccessId] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const { coords, loading: locating, error: locationError, refresh } = useGeolocation(DEFAULT_COORDINATES);
 
@@ -77,6 +78,9 @@ export function ReportForm() {
       });
       setSuccessId(result.id);
       setFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
       setDescription("");
       setAnalysisMessage("Report published to Firebase.");
       setCategory("Garbage");
@@ -97,6 +101,7 @@ export function ReportForm() {
       <div className="flex flex-col gap-3">
         <label className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Upload</label>
         <input
+          ref={fileInputRef}
           type="file"
           accept="image/*"
           capture="environment"
@@ -198,7 +203,7 @@ export function ReportForm() {
           Report Issue
         </Button>
         {successId && (
-          <Badge label={`Logged • ${successId.slice(-6)}`} className="border-emerald-200 bg-emerald-50 text-emerald-700" />
+          <Badge label={`Logged #${successId.slice(-6)}`} className="border-emerald-200 bg-emerald-50 text-emerald-700" />
         )}
         {isSubmitting && <p className="text-xs text-slate-500">Uploading photo to Firebase Storage...</p>}
       </div>

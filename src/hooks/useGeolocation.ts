@@ -13,7 +13,7 @@ export function useGeolocation(defaultCoords: Coordinates) {
   const [error, setError] = useState<string | null>(null);
 
   const requestLocation = useCallback(() => {
-    if (!navigator.geolocation) {
+    if (typeof window === "undefined" || !navigator.geolocation) {
       setError("Geolocation is not supported in this browser");
       setLoading(false);
       return;
@@ -38,7 +38,11 @@ export function useGeolocation(defaultCoords: Coordinates) {
   }, []);
 
   useEffect(() => {
-    requestLocation();
+    if (typeof window === "undefined") return;
+    const timer = window.setTimeout(() => {
+      requestLocation();
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [requestLocation]);
 
   return { coords, loading, error, refresh: requestLocation };

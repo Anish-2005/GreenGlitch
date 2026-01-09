@@ -32,7 +32,7 @@ export function HeatmapPanel() {
   return (
     <section className="grid gap-6 lg:grid-cols-[3fr,2fr]">
       <div className="overflow-hidden rounded-3xl border border-white/10 bg-slate-950/90 shadow-xl">
-        <APIProvider apiKey={GOOGLE_MAPS_KEY} onLoad={() => console.info("Google Maps ready")}> {/* eslint-disable-line no-console */}
+        <APIProvider apiKey={GOOGLE_MAPS_KEY} onLoad={() => console.info("Google Maps ready")}>
           <Map
             defaultZoom={13}
             defaultCenter={DEFAULT_COORDINATES}
