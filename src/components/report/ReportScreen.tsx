@@ -2,6 +2,7 @@
 
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { ReportForm } from "@/components/report/ReportForm";
+import { ReportHistory } from "@/components/report/ReportHistory";
 import { TAGLINE } from "@/lib/constants";
 
 export function ReportScreen() {
@@ -43,6 +44,7 @@ export function ReportScreen() {
                   <p className="text-slate-300">Uploads photo metadata to Firestore and broadcasts it to the heatmap.</p>
                 </li>
               </ul>
+              <ReportHistory />
             </div>
           </section>
         </main>

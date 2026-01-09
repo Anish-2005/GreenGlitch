@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, MapPin, RefreshCw } from "lucide-react";
 
+import { useAuth } from "@/components/auth/AuthProvider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CIVIC_CATEGORIES, DEFAULT_COORDINATES } from "@/lib/constants";
@@ -31,6 +32,7 @@ export function ReportForm() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const { user } = useAuth();
 
   const { coords, loading: locating, error: locationError, refresh } = useGeolocation(DEFAULT_COORDINATES);
 
@@ -212,6 +214,9 @@ export function ReportForm() {
         category,
         severity,
         description: description || "Unspecified civic issue",
+        userId: user?.uid ?? "anonymous",
+        userEmail: user?.email ?? null,
+        userName: user?.displayName ?? null,
       });
       setSuccessId(result.id);
       setFile(null);
@@ -253,6 +258,9 @@ export function ReportForm() {
           required
         />
         <p className="text-xs text-slate-400">Tip: point at the issue and let Gemini Vision auto-tag it for you. Photos stay local.</p>
+        {user ? (
+          <p className="text-xs text-emerald-300">Logged in as {user.displayName ?? user.email}</p>
+        ) : null}
         <div className="flex flex-wrap gap-2 text-xs">
           <Button type="button" onClick={startCamera} disabled={isCameraOpen} className="bg-white/10 text-white hover:bg-white/20">
             Enable Camera
