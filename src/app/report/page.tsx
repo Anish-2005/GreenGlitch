@@ -27,9 +27,9 @@ export default function ReportPage() {
           <div className="space-y-6 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">How it works</p>
-              <h2 className="mt-2 text-2xl font-semibold">Camera → Puter Vision → Firebase</h2>
+              <h2 className="mt-2 text-2xl font-semibold">Camera → Gemini Vision → Firebase</h2>
               <p className="mt-3 text-sm text-slate-300">
-                Snap a photo, let Puter&apos;s GPT-5 Nano vision model auto-tag the severity, and we instantly drop the
+                Snap a photo, let Gemini&apos;s Vision model auto-tag the severity, and we instantly drop the
                 details into Firestore for authorities.
               </p>
             </div>
@@ -40,7 +40,7 @@ export default function ReportPage() {
               </li>
               <li className="rounded-2xl border border-white/10 bg-white/5 p-4">
                 <span className="font-semibold text-white">2. Auto-tag</span>
-                <p className="text-slate-300">Puter AI suggests category, severity, and a one-line summary.</p>
+                <p className="text-slate-300">Gemini Vision suggests category, severity, and a one-line summary.</p>
               </li>
               <li className="rounded-2xl border border-white/10 bg-white/5 p-4">
                 <span className="font-semibold text-white">3. Publish</span>
