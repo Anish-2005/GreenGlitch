@@ -18,7 +18,7 @@ const PuterResponseSchema = z
   .nullable();
 
 const PUTER_SCRIPT_URL = "https://js.puter.com/v2/";
-const PUTER_MODEL = "gemini-2.5-flash-lite";
+const PUTER_MODEL = "gpt-5-nano";
 
 let puterSdkPromise: Promise<PuterSdk> | null = null;
 
@@ -32,6 +32,83 @@ function extractJsonBlock(raw: unknown) {
   if (trimmed === "null") return "null";
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   return jsonMatch?.[0] ?? text;
+}
+
+function extractContentText(content: unknown): string | null {
+  if (content == null) {
+    return null;
+  }
+
+  if (typeof content === "string") {
+    return content;
+  }
+
+  if (Array.isArray(content)) {
+    const merged = content
+      .map((item) => extractContentText(item))
+      .filter((value): value is string => Boolean(value));
+    return merged.length ? merged.join("\n") : null;
+  }
+
+  if (typeof content === "object") {
+    const record = content as Record<string, unknown>;
+    if (typeof record.text === "string") {
+      return record.text;
+    }
+    if ("content" in record) {
+      return extractContentText(record.content);
+    }
+  }
+
+  return null;
+}
+
+function extractAssistantText(payload: unknown): string | null {
+  if (payload == null) {
+    return null;
+  }
+
+  if (typeof payload === "string") {
+    return payload;
+  }
+
+  if (typeof payload !== "object") {
+    return null;
+  }
+
+  const record = payload as Record<string, unknown>;
+
+  if (record.result) {
+    const nested = extractAssistantText(record.result);
+    if (nested) {
+      return nested;
+    }
+  }
+
+  if (record.message) {
+    if (typeof record.message === "string") {
+      return record.message;
+    }
+    if (typeof record.message === "object") {
+      const contentText = extractContentText((record.message as Record<string, unknown>).content);
+      if (contentText) {
+        return contentText;
+      }
+    }
+  }
+
+  if (record.output) {
+    const nested = extractAssistantText(record.output);
+    if (nested) {
+      return nested;
+    }
+  }
+
+  if (typeof record.text === "string") {
+    return record.text;
+  }
+
+  return null;
 }
 
 async function ensurePuterSdk(): Promise<PuterSdk> {
@@ -77,13 +154,16 @@ export async function analyzeImageWithPuter(file: File): Promise<AITaggingResult
     model: PUTER_MODEL,
   });
 
-  const rawText =
-    typeof response === "string"
-      ? response
-      : (typeof response === "object" && response !== null && "message" in response
-          ? (response as { message?: string }).message
-          : (response as { output?: string }).output);
+  if (process.env.NODE_ENV !== "production") {
+    console.debug("[PuterAI] raw response", response);
+  }
+
+  const rawText = extractAssistantText(response);
   const jsonBlock = extractJsonBlock(rawText);
+
+  if (process.env.NODE_ENV !== "production") {
+    console.debug("[PuterAI] extracted payload", jsonBlock);
+  }
 
   if (!jsonBlock || jsonBlock === "null") {
     return null;
@@ -91,7 +171,6 @@ export async function analyzeImageWithPuter(file: File): Promise<AITaggingResult
 
   const parsed = PuterResponseSchema.safeParse(JSON.parse(jsonBlock));
   if (!parsed.success) {
-    console.warn("Puter response mismatch", parsed.error.flatten());
     return null;
   }
 

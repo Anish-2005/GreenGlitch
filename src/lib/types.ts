@@ -22,7 +22,7 @@ export interface CivicReport {
   category: CivicCategory;
   severity: SeverityLevel;
   description: string;
-  imageUrl: string;
+  imageUrl?: string | null;
   status: "open" | "in-progress" | "resolved";
   createdAt: number;
   reporterNote?: string;

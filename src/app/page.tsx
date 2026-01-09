@@ -6,7 +6,7 @@ const problemStatement =
   "Local communities and university campuses frequently suffer from maintenance neglect--whether it's overflowing dustbins, broken streetlights, or dangerous potholes. The current reporting mechanisms are often tedious, requiring users to navigate complex forms, manually type descriptions, and categorize issues. This friction discourages students and citizens from reporting problems, leaving authorities unaware of the ground reality.";
 
 const solutionStatement =
-  "GreenGlitch is a Progressive Web App (PWA) that streamlines civic reporting into a single click. Leveraging Puter AI's browser SDK (backed by Gemini 2.5 Flash Lite), the app automatically analyzes user-uploaded photos to identify the issue (e.g., Garbage, Pothole) and assesses its severity. Combined with OpenStreetMap's public tile service, it visualizes these reports on a public heatmap, allowing authorities to identify high-priority zones instantly. It removes the need for manual data entry, making civic engagement effortless.";
+  "GreenGlitch is a Progressive Web App (PWA) that streamlines civic reporting into a single click. Leveraging Puter AI's browser SDK (vision-powered GPT-5 Nano), the app automatically analyzes user-uploaded photos to identify the issue (e.g., Garbage, Pothole) and assesses its severity. Combined with OpenStreetMap's public tile service, it visualizes these reports on a public heatmap, allowing authorities to identify high-priority zones instantly. It removes the need for manual data entry, making civic engagement effortless.";
 
 const executionPlan = [
   {
@@ -93,7 +93,7 @@ export default function Home() {
             <ul className="mt-4 space-y-3 text-sm text-slate-200">
               <li><span className="font-semibold text-white">Frontend:</span> Next.js 14 + Tailwind CSS PWA shell.</li>
               <li><span className="font-semibold text-white">Backend:</span> Firebase Firestore & Storage (serverless + realtime).</li>
-              <li><span className="font-semibold text-white">AI:</span> Puter AI SDK tapping into Gemini 2.5 Flash Lite.</li>
+              <li><span className="font-semibold text-white">AI:</span> Puter AI SDK running GPT-5 Nano Vision fully in-browser.</li>
               <li><span className="font-semibold text-white">Maps:</span> OpenStreetMap tiles via Leaflet heat layer.</li>
             </ul>
           </div>
