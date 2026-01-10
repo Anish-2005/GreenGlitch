@@ -1,4 +1,6 @@
-# ![GreenGlitch](public/greenglitch-logo.svg) GreenGlitch: Civic Reporting Reimagined
+# ![GreenGlitch](public/greenglitch-logo.svg) 
+
+# GreenGlitch: Civic Reporting Reimagined
 
 [![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/tailwindcss-0F172A?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com/)
