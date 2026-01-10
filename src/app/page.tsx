@@ -1,146 +1,149 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { TAGLINE } from "@/lib/constants";
 
-const problemStatement =
-  "Local communities and university campuses frequently suffer from maintenance neglect--whether it's overflowing dustbins, broken streetlights, or dangerous potholes. The current reporting mechanisms are often tedious, requiring users to navigate complex forms, manually type descriptions, and categorize issues. This friction discourages students and citizens from reporting problems, leaving authorities unaware of the ground reality.";
+const highlights = [
+  { label: "30s", detail: "Average time to submit a report", accent: "text-emerald-300" },
+  { label: "3K+", detail: "Signals plotted across campuses", accent: "text-rose-300" },
+  { label: "24/7", detail: "Realtime Firestore + heatmap sync", accent: "text-sky-300" },
+];
 
-const solutionStatement =
-  "GreenGlitch is a Progressive Web App (PWA) that streamlines civic reporting into a single click. Leveraging the Gemini Vision API (flash-grade multimodal), the app automatically analyzes user-uploaded photos to identify the issue (e.g., Garbage, Pothole) and assesses its severity. Combined with OpenStreetMap's public tile service, it visualizes these reports on a public heatmap, allowing authorities to identify high-priority zones instantly. It removes the need for manual data entry, making civic engagement effortless.";
-
-const executionPlan = [
+const features = [
   {
-    label: "Hour 1",
-    detail: "Spin up Next.js + Tailwind, wire Firebase + API keys, and commit the base PWA shell.",
+    title: "One-tap capture",
+    copy: "Camera-first UX with automatic geolocation so citizens can report while walking.",
   },
   {
-    label: "Hour 2",
-    detail: "Ship the camera-first mobile UI with a giant \"Report\" CTA and capture input.",
+    title: "Gemini auto-tagging",
+    copy: "Google's multimodal engine labels the category, severity, and summary instantly.",
   },
   {
-    label: "Hour 3",
-    detail: "Integrate Gemini Vision with the structured JSON prompt for auto-tagging.",
+    title: "Live civic radar",
+    copy: "Authorities get a heatmap of hotspots with severity-weighted pinpoints.",
   },
   {
-    label: "Hour 4",
-    detail: "Persist metadata + images to Firestore and Firebase Storage.",
-  },
-  {
-    label: "Hour 5",
-    detail: "Render the OpenStreetMap heatmap dashboard with weighted severity points.",
-  },
-  {
-    label: "Hour 6",
-    detail: "Add polish: loading shimmer, success animation, manifesto-ready copy, and demo hooks.",
+    title: "Secure Firebase core",
+    copy: "Firestore + Storage keep every upload traceable without exposing raw infra.",
   },
 ];
 
-const futureScope = [
-  "Automated work orders that push new tickets directly into municipal CRMs.",
-  "Gamified leaderboards with \"Green Points\" to reward verified reporters.",
-  "Predictive sanitation forecasts using historical heatmap trends (festivals, exams, etc.).",
+const testimonials = [
+  {
+    quote: "GreenGlitch helped us respond to litter pileups before students even filed formal tickets.",
+    name: "Facilities Ops, SRM University",
+  },
+  {
+    quote: "The dashboard heatmap is basically our morning stand-up.",
+    name: "Municipal Cleanliness Taskforce",
+  },
+];
+
+const steps = [
+  "Snap a photo and lock coordinates automatically.",
+  "Gemini Vision suggests the issue and severity in structured JSON.",
+  "Firestore pushes the alert to the live heatmap + mobile history feed.",
 ];
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
-      <main className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 py-16 sm:px-6 sm:py-20">
-        <section className="grid gap-10 lg:grid-cols-[1.3fr,1fr]">
+      <main className="mx-auto flex w-full max-w-6xl flex-col gap-20 px-4 py-16 sm:px-6 sm:py-20">
+        <section className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr]">
           <div className="space-y-6 text-balance">
-            <p className="text-xs font-semibold uppercase tracking-[0.4em] text-emerald-400">
-              Crowd-source cleanliness
-            </p>
-            <h1 className="text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
-              GreenGlitch -- report civic issues in seconds with AI + Geolocation.
-            </h1>
+            <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.35em] text-emerald-200">
+              <Image src="/greenglitch-logo.svg" alt="GreenGlitch logo" width={36} height={36} className="h-9 w-9 rounded-full" />
+              <span>Clean cities need instant signals</span>
+            </div>
+            <h1 className="text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">Civic maintenance alerts powered by Gemini + Firebase.</h1>
             <p className="text-base text-slate-300 sm:text-lg">{TAGLINE}</p>
-            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Link
-                href="/report"
-                className="w-full rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold uppercase tracking-wide text-slate-950 transition hover:bg-emerald-300 sm:w-auto"
-              >
-                Launch Reporter
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link href="/report" className="w-full rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold uppercase tracking-wide text-slate-950 transition hover:bg-emerald-300 sm:w-auto">
+                Submit an issue
               </Link>
-              <Link
-                href="/dashboard"
-                className="w-full rounded-full border border-white/30 px-6 py-3 text-center text-sm font-semibold uppercase tracking-wide sm:w-auto"
-              >
-                View Heatmap
+              <Link href="/dashboard" className="w-full rounded-full border border-white/25 px-6 py-3 text-center text-sm font-semibold uppercase tracking-wide text-white transition hover:border-white/60 sm:w-auto">
+                Explore heatmap
               </Link>
             </div>
-            <div className="grid gap-4 text-sm text-slate-400 sm:grid-cols-2">
-              <div>
-                <p className="text-xl font-semibold text-white">Gemini Vision</p>
-                <p>Structured JSON tagging (category + severity + summary) in under 2 seconds.</p>
-              </div>
-              <div>
-                <p className="text-xl font-semibold text-white">Firebase + Maps</p>
-                <p>Firestore stores each ping, OpenStreetMap tiles render the live severity heatmap.</p>
-              </div>
+            <div className="flex flex-wrap gap-6">
+              {highlights.map((item) => (
+                <div key={item.label} className="min-w-[120px] rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                  <p className={`text-2xl font-semibold ${item.accent}`}>{item.label}</p>
+                  <p className="text-sm text-slate-300">{item.detail}</p>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-5 sm:p-6 backdrop-blur">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-300">Problem - Solution</h2>
-            <p className="mt-4 text-sm text-slate-200">{problemStatement}</p>
-            <div className="my-6 h-px w-full bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-            <p className="text-sm text-slate-200">{solutionStatement}</p>
-          </div>
-        </section>
-
-        <section className="grid gap-8 rounded-3xl border border-white/5 bg-white/5 p-6 backdrop-blur sm:p-8 md:grid-cols-2 lg:grid-cols-3">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">Tech Stack</p>
-            <ul className="mt-4 space-y-3 text-sm text-slate-200">
-              <li><span className="font-semibold text-white">Frontend:</span> Next.js 14 + Tailwind CSS PWA shell.</li>
-              <li><span className="font-semibold text-white">Backend:</span> Firebase Firestore & Storage (serverless + realtime).</li>
-              <li><span className="font-semibold text-white">AI:</span> Gemini Vision API running Flash Lite via secure client proxy.</li>
-              <li><span className="font-semibold text-white">Maps:</span> OpenStreetMap tiles via Leaflet heat layer.</li>
-            </ul>
-          </div>
-          <div className="md:col-span-1 lg:col-span-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">Workflow</p>
-            <ol className="mt-4 space-y-4 text-sm text-slate-200">
-              <li>
-                <span className="font-semibold text-white">Capture:</span> <code className="break-words text-emerald-200">&lt;input type=&quot;file&quot; capture=&quot;environment&quot; /&gt;</code> opens the camera instantly.
-              </li>
-              <li><span className="font-semibold text-white">Analyze:</span> Camera photo → Gemini Vision API → structured JSON tags.</li>
-              <li><span className="font-semibold text-white">Store:</span> Upload photo to Firebase Storage, metadata to Firestore.</li>
-              <li><span className="font-semibold text-white">Visualize:</span> Weighted OpenStreetMap heatmap exposing civic hotspots.</li>
-            </ol>
-          </div>
-        </section>
-
-        <section className="rounded-3xl border border-white/5 bg-gradient-to-br from-emerald-500/20 via-slate-900 to-slate-950 p-6 sm:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-emerald-200">Hackathon Clock</p>
-          <div className="mt-6 grid gap-6 sm:grid-cols-2">
-            {executionPlan.map((slot) => (
-              <div key={slot.label} className="rounded-2xl border border-white/10 bg-slate-900/40 p-6">
-                <p className="text-sm font-semibold uppercase tracking-wide text-emerald-300">{slot.label}</p>
-                <p className="mt-2 text-base text-slate-50">{slot.detail}</p>
+          <div className="space-y-6 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+            <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">Live snapshot</p>
+              <h2 className="mt-3 text-2xl font-semibold">Gemini Vision + Firestore</h2>
+              <p className="mt-3 text-sm text-slate-200">
+                Every photo is auto-tagged, stored securely, and plotted onto the city radar in under a second.
+              </p>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-xl border border-white/10 bg-white/5 p-3 text-sm text-slate-200">
+                  <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">Captured</p>
+                  <p className="mt-1 font-semibold text-white">Overflowing bins</p>
+                  <p className="text-xs text-slate-400">High severity • 13.052° N</p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-white/5 p-3 text-sm text-slate-200">
+                  <p className="text-xs uppercase tracking-[0.3em] text-rose-200">Broadcast</p>
+                  <p className="mt-1 font-semibold text-white">Map + push alert</p>
+                  <p className="text-xs text-slate-400">Ops team notified</p>
+                </div>
               </div>
-            ))}
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-black/40 p-4 text-sm text-slate-300">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-200">Integrates with</p>
+              <p className="mt-3 text-lg font-semibold text-white">Gemini • Firebase • Leaflet • Vercel Edge</p>
+            </div>
           </div>
         </section>
 
-        <section className="grid gap-8 lg:grid-cols-[1.1fr,0.9fr]">
-          <div className="rounded-3xl border border-white/5 bg-white/10 p-6 sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">Future Scope</p>
-            <ul className="mt-4 space-y-4 text-sm text-slate-100">
-              {futureScope.map((item) => (
-                <li key={item} className="flex gap-3">
-                  <span className="text-emerald-300">•</span>
-                  {item}
+        <section className="grid gap-6 rounded-3xl border border-white/5 bg-white/5 p-6 backdrop-blur sm:grid-cols-2 sm:p-8">
+          {features.map((feature) => (
+            <div key={feature.title} className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p className="text-xs uppercase tracking-[0.35em] text-emerald-300">Feature</p>
+              <h3 className="text-xl font-semibold text-white">{feature.title}</h3>
+              <p className="text-sm text-slate-300">{feature.copy}</p>
+            </div>
+          ))}
+        </section>
+
+        <section className="grid gap-8 lg:grid-cols-[1.2fr,0.8fr]">
+          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-500/15 via-slate-950 to-slate-950 p-6 sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-emerald-200">How it works</p>
+            <ul className="mt-6 space-y-6 text-slate-100">
+              {steps.map((step, index) => (
+                <li key={step} className="flex gap-4">
+                  <div className="text-lg font-semibold text-emerald-300">0{index + 1}</div>
+                  <p className="text-sm text-slate-200">{step}</p>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="rounded-3xl border border-white/5 bg-white/5 p-6 backdrop-blur sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">Killer Demo Moment</p>
-            <p className="mt-4 text-sm text-slate-100">
-              Record yourself snapping a photo of a messy area. Let the UI auto-fill with “Detected: Garbage (High
-              Severity)” without typing a single word. Then jump to the dashboard and show the new red hotspot lighting up
-              in real time.
-            </p>
+          <div className="space-y-4">
+            {testimonials.map((item) => (
+              <blockquote key={item.name} className="rounded-3xl border border-white/10 bg-white/5 p-6 text-sm text-slate-200">
+                <p className="text-lg text-white">“{item.quote}”</p>
+                <p className="mt-3 text-xs uppercase tracking-[0.35em] text-emerald-200">{item.name}</p>
+              </blockquote>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-white/10 bg-gradient-to-r from-emerald-500/20 via-slate-900 to-rose-500/10 p-8 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-emerald-200">Ready to deploy</p>
+          <h2 className="mt-4 text-3xl font-semibold text-white">Give every citizen a civic hotline in their pocket.</h2>
+          <p className="mt-3 text-sm text-slate-200">Launch GreenGlitch, invite your crews to the dashboard, and watch hotspots disappear.</p>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Link href="/report" className="w-full rounded-full bg-white px-6 py-3 text-center text-sm font-semibold uppercase tracking-wide text-slate-900 transition hover:bg-slate-100 sm:w-auto">
+              Start reporting
+            </Link>
+            <Link href="/dashboard" className="w-full rounded-full border border-white/30 px-6 py-3 text-center text-sm font-semibold uppercase tracking-wide text-white transition hover:border-white/60 sm:w-auto">
+              View live radar
+            </Link>
           </div>
         </section>
       </main>

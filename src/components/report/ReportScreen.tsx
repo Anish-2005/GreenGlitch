@@ -1,6 +1,8 @@
 "use client";
 
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import Image from "next/image";
+
 import { ReportForm } from "@/components/report/ReportForm";
 import { ReportHistory } from "@/components/report/ReportHistory";
 import { TAGLINE } from "@/lib/constants";
@@ -11,7 +13,13 @@ export function ReportScreen() {
       <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
         <main className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 py-16 sm:px-6 sm:py-20">
           <header className="space-y-4 text-center text-balance">
-            <p className="text-xs font-semibold uppercase tracking-[0.4em] text-emerald-300">Click &amp; Report</p>
+            <div className="mx-auto flex w-fit flex-col items-center gap-3 lg:flex-row">
+              <div className="flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-200">
+                <Image src="/greenglitch-logo.svg" alt="GreenGlitch logo" width={32} height={32} className="h-8 w-8 rounded-full" />
+                <span>GreenGlitch</span>
+              </div>
+              <p className="text-xs font-semibold uppercase tracking-[0.4em] text-emerald-300">Click &amp; Report</p>
+            </div>
             <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Drop a civic issue in seconds.</h1>
             <p className="text-base text-slate-300 sm:text-lg">{TAGLINE}</p>
           </header>
