@@ -101,9 +101,7 @@ export function ReportHistory() {
             <li key={report.id ?? `${report.lat}-${report.lng}-${report.createdAt}`} className="rounded-2xl border border-white/10 bg-white/5 p-4">
               <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
                 <span className="font-semibold text-white break-words">{report.category}</span>
-                <Badge variant="outline" className={`border ${severityAccent[report.severity]}`}>
-                  {report.severity}
-                </Badge>
+                <Badge label={report.severity} className={`border ${severityAccent[report.severity]}`} />
               </div>
               <p className="mt-2 text-sm text-slate-200 break-words">{report.description}</p>
               <div className="mt-3 flex flex-wrap items-center justify-between gap-x-2 gap-y-1 text-xs text-slate-400">

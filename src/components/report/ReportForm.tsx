@@ -239,7 +239,7 @@ export function ReportForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 rounded-[28px] border border-white/10 bg-[#040915] p-10 text-white shadow-[0_20px_60px_-25px_rgba(16,185,129,0.6)]"
+      className="w-full space-y-6 rounded-[28px] border border-white/10 bg-[#040915] p-6 text-white shadow-[0_20px_60px_-25px_rgba(16,185,129,0.6)] sm:p-8 lg:p-10"
     >
       <div className="flex flex-col gap-3">
         <label className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">Upload</label>
@@ -261,8 +261,13 @@ export function ReportForm() {
         {user ? (
           <p className="text-xs text-emerald-300">Logged in as {user.displayName ?? user.email}</p>
         ) : null}
-        <div className="flex flex-wrap gap-2 text-xs">
-          <Button type="button" onClick={startCamera} disabled={isCameraOpen} className="bg-white/10 text-white hover:bg-white/20">
+        <div className="flex w-full flex-col gap-2 text-xs sm:flex-row sm:flex-wrap">
+          <Button
+            type="button"
+            onClick={startCamera}
+            disabled={isCameraOpen}
+            className="w-full bg-white/10 text-white hover:bg-white/20 sm:w-auto"
+          >
             Enable Camera
           </Button>
           {isCameraOpen ? (
@@ -271,11 +276,11 @@ export function ReportForm() {
                 type="button"
                 onClick={capturePhoto}
                 disabled={!isCameraReady}
-                className={`bg-emerald-500 text-slate-950 hover:bg-emerald-400 disabled:cursor-not-allowed disabled:bg-emerald-500/50 disabled:text-slate-200`}
+                className={`w-full bg-emerald-500 text-slate-950 hover:bg-emerald-400 disabled:cursor-not-allowed disabled:bg-emerald-500/50 disabled:text-slate-200 sm:w-auto`}
               >
                 Capture Snapshot
               </Button>
-              <Button type="button" onClick={stopCamera} variant="secondary">
+              <Button type="button" onClick={stopCamera} variant="secondary" className="w-full sm:w-auto">
                 Close Camera
               </Button>
             </>
@@ -284,7 +289,7 @@ export function ReportForm() {
         {cameraError && <p className="text-xs text-red-400">{cameraError}</p>}
         {isCameraOpen ? (
           <div className="space-y-2 rounded-2xl border border-white/10 bg-black/50 p-3">
-            <video ref={videoRef} autoPlay playsInline muted className="h-52 w-full rounded-xl bg-slate-900 object-cover" />
+            <video ref={videoRef} autoPlay playsInline muted className="h-48 w-full rounded-xl bg-slate-900 object-cover sm:h-52" />
             <p className="text-[11px] text-slate-400">
               {isCameraReady
                 ? "Frame the issue, then click “Capture Snapshot”."
@@ -295,20 +300,20 @@ export function ReportForm() {
         {previewUrl ? (
           <div className="space-y-2 rounded-2xl border border-emerald-500/20 bg-white/5 p-3">
             <p className="text-xs font-semibold text-white">Preview</p>
-            <img src={previewUrl} alt="Issue preview" className="h-52 w-full rounded-xl object-cover" />
+            <img src={previewUrl} alt="Issue preview" className="h-48 w-full rounded-xl object-cover sm:h-52" />
           </div>
         ) : null}
         <canvas ref={canvasRef} className="hidden" />
       </div>
 
       <div className="space-y-2">
-        <div className="flex flex-wrap items-center gap-2 text-sm text-slate-200">
+        <div className="flex flex-col gap-2 text-sm text-slate-200 sm:flex-row sm:flex-wrap sm:items-center">
           <MapPin className="h-4 w-4" />
           {locating ? "Locking your location..." : `Lat ${coords.lat.toFixed(4)}, Lng ${coords.lng.toFixed(4)}`}
           <button
             type="button"
             onClick={refresh}
-            className="inline-flex items-center gap-1 rounded-full border border-emerald-400/40 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-200"
+            className="inline-flex max-w-max items-center gap-1 rounded-full border border-emerald-400/40 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-200"
           >
             <RefreshCw className="h-3 w-3" /> Refresh
           </button>

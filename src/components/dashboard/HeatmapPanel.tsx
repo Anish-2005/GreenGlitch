@@ -114,19 +114,19 @@ export function HeatmapPanel() {
 
   return (
     <section className="grid gap-8 lg:grid-cols-[1.7fr,1.1fr]">
-      <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-rose-500/15 via-slate-950 to-slate-950 p-6 shadow-[0_40px_90px_-45px_rgba(244,63,94,0.9)]">
+      <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-rose-500/15 via-slate-950 to-slate-950 p-5 shadow-[0_40px_90px_-45px_rgba(244,63,94,0.9)] sm:p-6">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-          <div>
+          <div className="text-center sm:text-left">
             <p className="text-xs font-semibold uppercase tracking-[0.4em] text-rose-200">Heat Vision</p>
             <h3 className="text-3xl font-semibold text-white">Live Civic Hotzones</h3>
             <p className="text-sm text-slate-300">{TAGLINE}</p>
           </div>
-          <div className="flex gap-3">
-            <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+            <div className="flex-1 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center min-w-[140px]">
               <p className="text-2xl font-semibold text-white">{totalReports || "0"}</p>
               <p className="text-xs uppercase tracking-[0.2em] text-slate-300">Reports</p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center">
+            <div className="flex-1 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center min-w-[140px]">
               <p className="text-2xl font-semibold text-rose-200">{highCount}</p>
               <p className="text-xs uppercase tracking-[0.2em] text-slate-300">High Alert</p>
             </div>
@@ -137,13 +137,13 @@ export function HeatmapPanel() {
             center={mapCenter}
             zoom={13}
             scrollWheelZoom
-            style={{ height: 520, width: "100%" }}
-            className="h-full w-full"
+            style={{ width: "100%" }}
+            className="h-[320px] w-full sm:h-[420px] lg:h-[520px]"
           >
             <TileLayer attribution={OSM_ATTRIBUTION} url={OSM_TILE_URL} />
             <HeatmapOverlay points={heatmapPoints} reports={reports} />
           </MapContainer>
-          <div className="pointer-events-none absolute left-6 top-6 z-[600] w-64 rounded-2xl border border-white/10 bg-black/60 px-5 py-4 backdrop-blur">
+          <div className="pointer-events-none absolute left-4 top-4 z-[600] w-full max-w-full rounded-2xl border border-white/10 bg-black/60 px-4 py-4 backdrop-blur sm:left-6 sm:top-6 sm:max-w-xs sm:px-5">
             <p className="text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-rose-200">Latest Signal</p>
             <p className="mt-2 text-xl font-semibold text-white">
               {latestReport ? latestReport.category : "Awaiting activity"}
@@ -152,7 +152,7 @@ export function HeatmapPanel() {
               {latestReport ? formatTimestamp(latestReport.createdAt) : "Feed idle"}
             </p>
           </div>
-          <div className="pointer-events-none absolute bottom-6 left-6 z-[600] flex gap-3 text-xs text-white">
+          <div className="pointer-events-none absolute bottom-4 left-4 z-[600] flex w-full max-w-full flex-wrap gap-2 text-xs text-white sm:bottom-6 sm:left-6 sm:max-w-none sm:gap-3">
             <span className="flex items-center gap-2 rounded-full border border-white/20 bg-black/60 px-3 py-1">
               <span className="h-3 w-3 rounded-full bg-rose-400" /> Hot area
             </span>
@@ -163,7 +163,7 @@ export function HeatmapPanel() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-5 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+      <div className="flex flex-col gap-5 rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur sm:p-6">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.4em] text-emerald-300">Live Feed</p>
           <h3 className="text-2xl font-semibold text-white">Incident Timeline</h3>
@@ -176,19 +176,19 @@ export function HeatmapPanel() {
             <p className="text-xs text-slate-300">Auto-refreshing without reloads</p>
           </div>
         </div>
-        <div className="flex max-h-[520px] flex-col gap-3 overflow-y-auto pr-2">
+        <div className="flex max-h-[420px] flex-col gap-3 overflow-y-auto pr-1 sm:max-h-[520px] sm:pr-2">
           {reports.slice(0, 6).map((report) => (
             <article key={report.id} className="rounded-2xl border border-white/10 bg-white/10 p-4 text-white shadow-lg">
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-center gap-2 text-sm text-slate-200">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="flex flex-wrap items-center gap-2 text-sm text-slate-200">
                   <MapPin className="h-4 w-4 text-rose-200" />
                   {report.lat.toFixed(3)}, {report.lng.toFixed(3)}
                 </div>
                 <Badge label={report.severity} className={SEVERITY_BADGES[report.severity]} />
               </div>
               <p className="mt-2 text-base font-semibold text-white">{report.category}</p>
-              <p className="text-sm text-slate-200">{report.description}</p>
-              <div className="mt-3 flex items-center justify-between text-xs text-slate-400">
+              <p className="text-sm text-slate-200 break-words">{report.description}</p>
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
                 <span>{formatTimestamp(report.createdAt)}</span>
                 <span className="inline-flex items-center gap-1 text-rose-200">
                   <AlertTriangle className="h-3 w-3" /> {report.severity} severity

@@ -9,11 +9,11 @@ export function ReportScreen() {
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
-        <main className="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-20">
-          <header className="space-y-4 text-center">
+        <main className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 py-16 sm:px-6 sm:py-20">
+          <header className="space-y-4 text-center text-balance">
             <p className="text-xs font-semibold uppercase tracking-[0.4em] text-emerald-300">Click &amp; Report</p>
-            <h1 className="text-5xl font-semibold leading-tight">Drop a civic issue in seconds.</h1>
-            <p className="text-lg text-slate-300">{TAGLINE}</p>
+            <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Drop a civic issue in seconds.</h1>
+            <p className="text-base text-slate-300 sm:text-lg">{TAGLINE}</p>
           </header>
 
           <section className="grid gap-8 lg:grid-cols-[1.2fr,0.8fr]">

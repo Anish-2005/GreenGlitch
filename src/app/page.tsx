@@ -44,26 +44,26 @@ const futureScope = [
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
-      <main className="mx-auto flex max-w-6xl flex-col gap-16 px-6 py-20">
+      <main className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 py-16 sm:px-6 sm:py-20">
         <section className="grid gap-10 lg:grid-cols-[1.3fr,1fr]">
-          <div className="space-y-6">
+          <div className="space-y-6 text-balance">
             <p className="text-xs font-semibold uppercase tracking-[0.4em] text-emerald-400">
               Crowd-source cleanliness
             </p>
-            <h1 className="text-5xl font-semibold leading-tight">
+            <h1 className="text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
               GreenGlitch -- report civic issues in seconds with AI + Geolocation.
             </h1>
-            <p className="text-lg text-slate-300">{TAGLINE}</p>
-            <div className="flex flex-wrap gap-4">
+            <p className="text-base text-slate-300 sm:text-lg">{TAGLINE}</p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/report"
-                className="rounded-full bg-emerald-400 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-slate-950 transition hover:bg-emerald-300"
+                className="w-full rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold uppercase tracking-wide text-slate-950 transition hover:bg-emerald-300 sm:w-auto"
               >
                 Launch Reporter
               </Link>
               <Link
                 href="/dashboard"
-                className="rounded-full border border-white/30 px-6 py-3 text-sm font-semibold uppercase tracking-wide"
+                className="w-full rounded-full border border-white/30 px-6 py-3 text-center text-sm font-semibold uppercase tracking-wide sm:w-auto"
               >
                 View Heatmap
               </Link>
@@ -79,7 +79,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-5 sm:p-6 backdrop-blur">
             <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-300">Problem - Solution</h2>
             <p className="mt-4 text-sm text-slate-200">{problemStatement}</p>
             <div className="my-6 h-px w-full bg-gradient-to-r from-transparent via-white/30 to-transparent" />
@@ -87,7 +87,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="grid gap-8 rounded-3xl border border-white/5 bg-white/5 p-8 backdrop-blur lg:grid-cols-3">
+        <section className="grid gap-8 rounded-3xl border border-white/5 bg-white/5 p-6 backdrop-blur sm:p-8 md:grid-cols-2 lg:grid-cols-3">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">Tech Stack</p>
             <ul className="mt-4 space-y-3 text-sm text-slate-200">
@@ -97,11 +97,11 @@ export default function Home() {
               <li><span className="font-semibold text-white">Maps:</span> OpenStreetMap tiles via Leaflet heat layer.</li>
             </ul>
           </div>
-          <div className="lg:col-span-2">
+          <div className="md:col-span-1 lg:col-span-2">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">Workflow</p>
             <ol className="mt-4 space-y-4 text-sm text-slate-200">
               <li>
-                <span className="font-semibold text-white">Capture:</span> <code className="text-emerald-200">&lt;input type=&quot;file&quot; capture=&quot;environment&quot; /&gt;</code> opens the camera instantly.
+                <span className="font-semibold text-white">Capture:</span> <code className="break-words text-emerald-200">&lt;input type=&quot;file&quot; capture=&quot;environment&quot; /&gt;</code> opens the camera instantly.
               </li>
               <li><span className="font-semibold text-white">Analyze:</span> Camera photo → Gemini Vision API → structured JSON tags.</li>
               <li><span className="font-semibold text-white">Store:</span> Upload photo to Firebase Storage, metadata to Firestore.</li>
@@ -110,9 +110,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-white/5 bg-gradient-to-br from-emerald-500/20 via-slate-900 to-slate-950 p-8">
+        <section className="rounded-3xl border border-white/5 bg-gradient-to-br from-emerald-500/20 via-slate-900 to-slate-950 p-6 sm:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.4em] text-emerald-200">Hackathon Clock</p>
-          <div className="mt-6 grid gap-6 md:grid-cols-2">
+          <div className="mt-6 grid gap-6 sm:grid-cols-2">
             {executionPlan.map((slot) => (
               <div key={slot.label} className="rounded-2xl border border-white/10 bg-slate-900/40 p-6">
                 <p className="text-sm font-semibold uppercase tracking-wide text-emerald-300">{slot.label}</p>
@@ -123,7 +123,7 @@ export default function Home() {
         </section>
 
         <section className="grid gap-8 lg:grid-cols-[1.1fr,0.9fr]">
-          <div className="rounded-3xl border border-white/5 bg-white/10 p-8">
+          <div className="rounded-3xl border border-white/5 bg-white/10 p-6 sm:p-8">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">Future Scope</p>
             <ul className="mt-4 space-y-4 text-sm text-slate-100">
               {futureScope.map((item) => (
@@ -134,7 +134,7 @@ export default function Home() {
               ))}
             </ul>
           </div>
-          <div className="rounded-3xl border border-white/5 bg-white/5 p-8 backdrop-blur">
+          <div className="rounded-3xl border border-white/5 bg-white/5 p-6 backdrop-blur sm:p-8">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">Killer Demo Moment</p>
             <p className="mt-4 text-sm text-slate-100">
               Record yourself snapping a photo of a messy area. Let the UI auto-fill with “Detected: Garbage (High
