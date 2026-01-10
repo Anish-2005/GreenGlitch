@@ -14,14 +14,16 @@ export default function manifest(): MetadataRoute.Manifest {
     lang: "en",
     icons: [
       {
-        src: "/favicon.ico",
-        sizes: "any",
-        type: "image/x-icon",
-      },
-      {
-        src: "/next.svg",
+        src: "/greenglitch-logo.svg",
         sizes: "512x512",
         type: "image/svg+xml",
+        purpose: "any",
+      },
+      {
+        src: "/icon.svg",
+        sizes: "192x192",
+        type: "image/svg+xml",
+        purpose: "any maskable",
       },
     ],
   };

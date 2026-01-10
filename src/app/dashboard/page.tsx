@@ -1,11 +1,15 @@
+"use client";
+import dynamic from "next/dynamic";
 import type { Metadata } from "next";
 
-import { DashboardScreen } from "@/components/dashboard/DashboardScreen";
+const DashboardScreen = dynamic(
+  () => import("@/components/dashboard/DashboardScreen").then((mod) => mod.DashboardScreen),
+  {
+    ssr: false,
+    loading: () => <div className="min-h-[60vh] w-full bg-slate-950" aria-label="Loading dashboard" />,
+  },
+);
 
-export const metadata: Metadata = {
-  title: "Heatmap Dashboard • GreenGlitch",
-  description: "Monitor real-time civic cleanliness hotspots across your community.",
-};
 
 export default function DashboardPage() {
   return <DashboardScreen />;
