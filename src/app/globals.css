@@ -83,6 +83,9 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   * {
     @apply border-border outline-ring/50;
   }
@@ -106,4 +109,16 @@
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.mask-fade-out {
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+.invisible {
+  visibility: hidden;
 }
