@@ -3,26 +3,36 @@ import { cn } from "@/lib/utils";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "ghost" | "outline";
+  size?: "sm" | "md" | "lg";
 }
 
 const variantStyles: Record<NonNullable<ButtonProps["variant"]>, string> = {
   primary:
-    "bg-emerald-500 text-white hover:bg-emerald-600 focus-visible:ring-emerald-400",
+    "bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20",
   secondary:
-    "bg-slate-900 text-white hover:bg-slate-800 focus-visible:ring-slate-500",
+    "bg-secondary text-secondary-foreground hover:bg-secondary/80",
   ghost:
-    "bg-transparent text-slate-900 hover:bg-slate-100 focus-visible:ring-slate-200",
+    "bg-transparent text-foreground hover:bg-accent",
+  outline:
+    "bg-transparent border border-border text-foreground hover:bg-accent hover:border-accent",
+};
+
+const sizeStyles: Record<NonNullable<ButtonProps["size"]>, string> = {
+  sm: "px-3 py-1.5 text-xs",
+  md: "px-5 py-2.5 text-sm",
+  lg: "px-8 py-4 text-base",
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, children, variant = "primary", ...props }, ref) => {
+  ({ className, children, variant = "primary", size = "md", ...props }, ref) => {
     return (
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60",
+          "inline-flex items-center justify-center rounded-2xl font-bold transition-all active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50",
           variantStyles[variant],
+          sizeStyles[size],
           className,
         )}
         {...props}

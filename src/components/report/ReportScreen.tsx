@@ -1,60 +1,99 @@
 "use client";
 
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
-import Image from "next/image";
-
+import { Navbar } from "@/components/Navbar";
 import { ReportForm } from "@/components/report/ReportForm";
 import { ReportHistory } from "@/components/report/ReportHistory";
 import { TAGLINE } from "@/lib/constants";
+import { motion } from "framer-motion";
+import { Camera, ShieldCheck, Sparkles } from "lucide-react";
 
 export function ReportScreen() {
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
-        <main className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 py-16 sm:px-6 sm:py-20">
-          <header className="space-y-4 text-center text-balance">
-            <div className="mx-auto flex w-fit flex-col items-center gap-3 lg:flex-row">
-              <div className="flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-200">
-                <Image src="/greenglitch-logo.svg" alt="GreenGlitch logo" width={32} height={32} className="h-8 w-8 rounded-full" />
-                <span>GreenGlitch</span>
-              </div>
-              <p className="text-xs font-semibold uppercase tracking-[0.4em] text-emerald-300">Click &amp; Report</p>
-            </div>
-            <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Drop a civic issue in seconds.</h1>
-            <p className="text-base text-slate-300 sm:text-lg">{TAGLINE}</p>
-          </header>
+      <div className="relative min-h-screen">
+        <Navbar />
 
-          <section className="grid gap-8 lg:grid-cols-[1.2fr,0.8fr]">
-            <div className="rounded-3xl border border-white/10 bg-white/10 p-2 backdrop-blur">
-              <div className="rounded-[26px] border border-white/10 bg-white/90 p-1 text-slate-900 shadow-2xl shadow-emerald-500/10">
+        {/* Background Accents */}
+        <div className="absolute top-0 right-0 -z-10 h-[500px] w-[500px] bg-emerald-500/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-0 left-0 -z-10 h-[500px] w-[500px] bg-sky-500/10 blur-[120px] rounded-full" />
+
+        <main className="mx-auto max-w-7xl px-4 pt-32 pb-20 sm:px-6 lg:px-8">
+          <motion.header
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-16 space-y-4"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-bold tracking-widest uppercase mb-4">
+              <Camera className="h-4 w-4" />
+              <span>Instant Reporting</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+              Drop a civic issue <span className="text-gradient">in seconds.</span>
+            </h1>
+            <p className="max-w-2xl mx-auto text-muted-foreground text-lg">
+              {TAGLINE}
+            </p>
+          </motion.header>
+
+          <div className="grid gap-12 lg:grid-cols-[1.3fr,0.7fr]">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              className="glass rounded-[2rem] p-1 shadow-2xl overflow-hidden"
+            >
+              <div className="bg-background rounded-[1.8rem] p-6 md:p-8">
                 <ReportForm />
               </div>
-            </div>
-            <div className="space-y-6 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">How it works</p>
-                <h2 className="mt-2 text-2xl font-semibold">Camera → Gemini Vision → Firebase</h2>
-                <p className="mt-3 text-sm text-slate-300">
-                  Snap a photo, let Gemini&apos;s Vision model auto-tag the severity, and we instantly drop the details into Firestore for authorities.
-                </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+              className="space-y-8"
+            >
+              <div className="glass rounded-[2rem] p-8 space-y-6">
+                <div>
+                  <div className="inline-flex items-center gap-2 text-primary font-bold text-sm uppercase tracking-wider">
+                    <Sparkles className="h-4 w-4" />
+                    How it works
+                  </div>
+                  <h2 className="mt-4 text-2xl font-bold">Intelligent Capture</h2>
+                  <p className="mt-4 text-muted-foreground leading-relaxed">
+                    Powered by <span className="text-foreground font-semibold">Gemini Vision</span>, every photo is automatically analyzed for context, severity, and precise location.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  {[
+                    { title: "Capture", desc: "Open the camera and focus on the issue.", icon: Camera, color: "text-emerald-500" },
+                    { title: "Auto-tag", desc: "Gemini suggests category and severity.", icon: Sparkles, color: "text-sky-500" },
+                    { title: "Broadcast", desc: "Instantly shared to the authorities.", icon: ShieldCheck, color: "text-indigo-500" },
+                  ].map((step, i) => (
+                    <div key={i} className="flex gap-4 p-4 rounded-2xl bg-secondary/50 border border-border/50">
+                      <div className={`h-10 w-10 rounded-xl bg-background flex items-center justify-center shadow-sm ${step.color}`}>
+                        <step.icon className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <div className="font-bold text-sm">{step.title}</div>
+                        <div className="text-xs text-muted-foreground mt-1">{step.desc}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <ul className="space-y-4 text-sm text-slate-200">
-                <li className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                  <span className="font-semibold text-white">1. Capture</span>
-                  <p className="text-slate-300">Open the camera-first input and focus directly on the civic issue.</p>
-                </li>
-                <li className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                  <span className="font-semibold text-white">2. Auto-tag</span>
-                  <p className="text-slate-300">Gemini Vision suggests category, severity, and a one-line summary.</p>
-                </li>
-                <li className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                  <span className="font-semibold text-white">3. Publish</span>
-                  <p className="text-slate-300">Uploads photo metadata to Firestore and broadcasts it to the heatmap.</p>
-                </li>
-              </ul>
-              <ReportHistory />
-            </div>
-          </section>
+
+              <div className="glass rounded-[2rem] p-8 bg-primary/5 border-primary/10">
+                <h3 className="font-bold mb-4 flex items-center gap-2">
+                  <ShieldCheck className="h-5 w-5 text-primary" />
+                  Your Reports
+                </h3>
+                <ReportHistory />
+              </div>
+            </motion.div>
+          </div>
         </main>
       </div>
     </ProtectedRoute>

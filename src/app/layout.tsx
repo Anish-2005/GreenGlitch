@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Outfit, JetBrains_Mono } from "next/font/google";
 
 import { AuthProvider } from "@/components/auth/AuthProvider";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { PROJECT_NAME, TAGLINE } from "@/lib/constants";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
-const grotesk = Space_Grotesk({
+const outfit = Outfit({
   variable: "--font-sans",
   subsets: ["latin"],
 });
@@ -42,10 +43,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${grotesk.variable} ${mono.variable} bg-slate-950 text-white antialiased`}>
-        
-        <AuthProvider>{children}</AuthProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${outfit.variable} ${mono.variable} font-sans antialiased`}>
+        <ThemeProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
