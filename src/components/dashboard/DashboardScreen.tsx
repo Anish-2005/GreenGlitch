@@ -60,19 +60,32 @@ export function DashboardScreen() {
             </div>
 
             <ScrollReveal direction="left" delay={0.3}>
-              <div className="flex flex-wrap items-center gap-4">
-                <div className="flex h-16 items-center gap-4 rounded-3xl border border-white/10 glass bg-card/30 px-6 shadow-xl group hover:border-emerald-500/30 transition-all duration-500">
-                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-black tracking-[0.2em] text-muted-foreground uppercase leading-none">Status</span>
-                    <span className="text-xs font-black tracking-widest mt-1">PROTOCOLS NOMINAL</span>
+              <div className="flex flex-col items-end gap-4">
+                <div className="flex flex-wrap items-center gap-4">
+                  <div className="flex h-16 items-center gap-4 rounded-3xl border border-white/10 glass bg-card/30 px-6 shadow-xl group hover:border-emerald-500/30 transition-all duration-500">
+                    <div className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <div className="flex flex-col">
+                      <span className="text-[10px] font-black tracking-[0.2em] text-muted-foreground uppercase leading-none">Status</span>
+                      <span className="text-xs font-black tracking-widest mt-1">PROTOCOLS NOMINAL</span>
+                    </div>
+                  </div>
+                  <div className="flex h-16 items-center gap-4 rounded-3xl border border-white/10 glass bg-card/30 px-6 shadow-xl group hover:border-sky-500/30 transition-all duration-500">
+                    <Shield className="h-5 w-5 text-primary group-hover:rotate-12 transition-transform duration-500" />
+                    <div className="flex flex-col">
+                      <span className="text-[10px] font-black tracking-[0.2em] text-muted-foreground uppercase leading-none">Security</span>
+                      <span className="text-xs font-black tracking-widest mt-1">AES-256 ENCRYPTED</span>
+                    </div>
                   </div>
                 </div>
-                <div className="flex h-16 items-center gap-4 rounded-3xl border border-white/10 glass bg-card/30 px-6 shadow-xl group hover:border-sky-500/30 transition-all duration-500">
-                  <Shield className="h-5 w-5 text-primary group-hover:rotate-12 transition-transform duration-500" />
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-black tracking-[0.2em] text-muted-foreground uppercase leading-none">Security</span>
-                    <span className="text-xs font-black tracking-widest mt-1">AES-256 ENCRYPTED</span>
+
+                <div className="hidden lg:flex items-center gap-4 opacity-70">
+                  <div className="flex items-center gap-3 px-4 py-2 glass rounded-xl border border-white/5">
+                    <Activity className="h-3 w-3 text-primary animate-pulse" />
+                    <span className="text-[9px] font-black tracking-[0.2em] uppercase">98.4 MHZ NOMINAL</span>
+                  </div>
+                  <div className="flex items-center gap-3 px-4 py-2 glass rounded-xl border border-white/5">
+                    <Database className="h-3 w-3 text-sky-500" />
+                    <span className="text-[9px] font-black tracking-[0.2em] uppercase">2,481 ACTIVE NODES</span>
                   </div>
                 </div>
               </div>
@@ -87,24 +100,6 @@ export function DashboardScreen() {
               <div className="relative glass rounded-[3rem] p-2 shadow-[0_40px_100px_rgba(0,0,0,0.3)] overflow-hidden border border-white/10">
                 <div className="overflow-hidden rounded-[2.6rem] border border-white/5 bg-background/20 backdrop-blur-3xl min-h-[400px] lg:min-h-[600px]">
                   <HeatmapPanel />
-                </div>
-              </div>
-
-              {/* Data Overlay Indicators */}
-              <div className="absolute bottom-10 left-10 z-20 hidden md:flex flex-col gap-3">
-                <div className="p-4 glass rounded-2xl border border-white/10 flex items-center gap-4 min-w-[200px]">
-                  <Activity className="h-5 w-5 text-primary animate-pulse" />
-                  <div className="space-y-1">
-                    <p className="text-[8px] font-black uppercase tracking-widest opacity-50">Signal Frequency</p>
-                    <p className="text-xs font-black tracking-tighter italic">98.4 MHZ NOMINAL</p>
-                  </div>
-                </div>
-                <div className="p-4 glass rounded-2xl border border-white/10 flex items-center gap-4 min-w-[200px]">
-                  <Database className="h-5 w-5 text-sky-500" />
-                  <div className="space-y-1">
-                    <p className="text-[8px] font-black uppercase tracking-widest opacity-50">Lattice Nodes</p>
-                    <p className="text-xs font-black tracking-tighter italic">2,481 ACTIVE UNITS</p>
-                  </div>
                 </div>
               </div>
             </div>

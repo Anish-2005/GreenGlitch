@@ -1,16 +1,17 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-
+import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { Badge } from "@/components/ui/badge";
 import { subscribeToUserReports } from "@/lib/firebase/reports";
 import type { CivicReport, SeverityLevel } from "@/lib/types";
+import { MapPin, Clock, ExternalLink, ShieldCheck, AlertCircle } from "lucide-react";
 
 const severityAccent: Record<SeverityLevel, string> = {
-  Low: "bg-emerald-500/10 text-emerald-200 border-emerald-400/30",
-  Medium: "bg-amber-500/10 text-amber-200 border-amber-400/30",
-  High: "bg-rose-500/10 text-rose-200 border-rose-400/30",
+  Low: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20",
+  Medium: "text-sky-500 bg-sky-500/10 border-sky-500/20",
+  High: "text-rose-500 bg-rose-500/10 border-rose-500/20",
 };
 
 const INDEX_HELP_URL =
@@ -55,65 +56,87 @@ export function ReportHistory() {
       },
     );
 
-    return () => {
-      unsubscribe();
-    };
+    return () => unsubscribe();
   }, [user?.uid]);
 
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
 
   const latestReports = reports.slice(0, 5);
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-white/5 p-5">
-      <header className="mb-4 space-y-1 text-balance">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">Your trail</p>
-        <h3 className="text-xl font-semibold text-white">Recent reports</h3>
-        <p className="text-sm text-slate-300 break-words">Only visible to you. Stored securely in Firebase.</p>
-      </header>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between px-1">
+        <div className="flex items-center gap-3">
+          <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground/60 italic">Personal Signal Archive</span>
+        </div>
+        {reports.length > 0 && <span className="text-[9px] font-black tracking-widest text-primary/50 uppercase">{reports.length} Signals Captured</span>}
+      </div>
 
-      {loading ? (
-        <p className="text-sm text-slate-400">Fetching your submissions…</p>
-      ) : error ? (
-        error.toLowerCase().includes("index") ? (
-          <div className="space-y-2 rounded-2xl border border-rose-400/30 bg-rose-500/10 p-4 text-sm text-rose-100 break-words">
-            <p>Firestore needs a quick composite index before we can load your personal history.</p>
-            <a
-              href={INDEX_HELP_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex w-full flex-wrap items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-white/10"
-            >
-              Create index in Firebase Console
-            </a>
-            <p className="text-xs text-rose-200/80">Once the index finishes building this panel updates automatically.</p>
-          </div>
+      <AnimatePresence mode="popLayout">
+        {loading ? (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center py-12 gap-4">
+            <div className="h-10 w-10 border-t-2 border-primary rounded-full animate-spin" />
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground italic">Decrypting Archive...</p>
+          </motion.div>
+        ) : error ? (
+          error.toLowerCase().includes("index") ? (
+            <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="p-8 rounded-[2rem] border border-rose-500/20 bg-rose-500/5 space-y-6">
+              <div className="flex items-center gap-3 text-rose-500">
+                <AlertCircle className="h-5 w-5" />
+                <span className="text-xs font-black uppercase tracking-widest">Protocol Sync Required</span>
+              </div>
+              <p className="text-xs font-medium text-muted-foreground leading-relaxed italic">Firestore requires a composite index to link your personal identity to the signal database.</p>
+              <a
+                href={INDEX_HELP_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-center gap-3 w-full h-14 rounded-2xl bg-foreground text-background text-[10px] font-black uppercase tracking-widest hover:scale-[1.02] transition-all"
+              >
+                <ExternalLink className="h-4 w-4" /> Initialize Index
+              </a>
+            </motion.div>
+          ) : (
+            <p className="text-xs font-black uppercase tracking-widest text-rose-500">Error: {error}</p>
+          )
+        ) : latestReports.length === 0 ? (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-20 flex flex-col items-center justify-center text-center px-8 border border-dashed border-white/10 rounded-[2.5rem] bg-white/5 opacity-50 italic">
+            <ShieldCheck className="h-8 w-8 text-muted-foreground mb-4" />
+            <p className="text-[10px] font-black uppercase tracking-widest">No Active Signals Linked</p>
+            <p className="text-[9px] font-medium mt-1">Archive is currently empty. Direct reports will materialize here.</p>
+          </motion.div>
         ) : (
-          <p className="text-sm text-rose-300 break-words">{error}</p>
-        )
-      ) : latestReports.length === 0 ? (
-        <p className="text-sm text-slate-400">No reports yet. Your first submission will land here.</p>
-      ) : (
-        <ul className="space-y-3">
-          {latestReports.map((report) => (
-            <li key={report.id ?? `${report.lat}-${report.lng}-${report.createdAt}`} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-              <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
-                <span className="font-semibold text-white break-words">{report.category}</span>
-                <Badge label={report.severity} className={`border ${severityAccent[report.severity]}`} />
-              </div>
-              <p className="mt-2 text-sm text-slate-200 break-words">{report.description}</p>
-              <div className="mt-3 flex flex-wrap items-center justify-between gap-x-2 gap-y-1 text-xs text-slate-400">
-                <span className="break-words">
-                  {report.lat.toFixed(3)}, {report.lng.toFixed(3)}
-                </span>
-                <span>{dateFormatter.format(report.createdAt)}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
+          <ul className="space-y-4">
+            {latestReports.map((report, i) => (
+              <motion.li
+                key={report.id ?? i}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.1 }}
+                className="group relative glass bg-secondary/20 hover:bg-secondary/40 border border-white/5 p-6 rounded-[1.8rem] transition-all duration-500"
+              >
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <div className="space-y-1">
+                    <h4 className="text-sm font-black italic tracking-tighter uppercase group-hover:text-primary transition-colors">{report.category}</h4>
+                    <div className="flex items-center gap-3 text-muted-foreground/60 text-[9px] font-bold">
+                      <Clock className="h-3 w-3" />
+                      {dateFormatter.format(report.createdAt)}
+                    </div>
+                  </div>
+                  <Badge label={report.severity} className={`${severityAccent[report.severity]} !rounded-full !px-3 !py-0.5 !text-[8px] !font-black !tracking-[0.2em] uppercase`} />
+                </div>
+
+                <p className="text-xs text-muted-foreground/80 font-medium leading-relaxed italic line-clamp-2 mb-4">"{report.description}"</p>
+
+                <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+                  <MapPin className="h-3 w-3 text-rose-500" />
+                  <span className="text-[9px] font-black tracking-widest text-muted-foreground/40">{report.lat.toFixed(4)} / {report.lng.toFixed(4)}</span>
+                </div>
+              </motion.li>
+            ))}
+          </ul>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
