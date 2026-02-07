@@ -10,7 +10,12 @@
   },
   "dependencies": {
     "@firebase/firestore": "4.11.0",
+    "@react-three/drei": "10.7.7",
+    "@react-three/fiber": "9.5.0",
+    "@types/d3": "7.4.3",
+    "@types/three": "0.182.0",
     "clsx": "^2.1.1",
+    "d3": "7.9.0",
     "firebase": "12.9.0",
     "framer-motion": "^12.25.0",
     "leaflet": "^1.9.4",
@@ -21,6 +26,7 @@
     "react-dom": "19.2.3",
     "react-leaflet": "^5.0.0",
     "tailwind-merge": "^3.4.0",
+    "three": "0.182.0",
     "zod": "^4.3.5"
   },
   "devDependencies": {
