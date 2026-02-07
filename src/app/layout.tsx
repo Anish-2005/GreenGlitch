@@ -37,6 +37,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { BackgroundSystem } from "@/components/ui/BackgroundSystem";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -44,9 +46,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${outfit.variable} ${mono.variable} font-sans antialiased`}>
+      <body className={`${outfit.variable} ${mono.variable} font-sans antialiased bg-background`}>
         <ThemeProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <BackgroundSystem />
+            <div className="relative z-10">
+              {children}
+            </div>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -69,26 +69,7 @@ export default function Home() {
   const yNormal = useTransform(smoothProgress, [0, 1], [0, -200]);
 
   return (
-    <div ref={containerRef} className="relative min-h-screen bg-background selection:bg-primary selection:text-primary-foreground overflow-x-hidden">
-      {/* Dynamic Background Layers */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-grid-slate-900/[0.04] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
-        <div className="absolute inset-0 bg-noise opacity-[0.02] dark:opacity-[0.05]" />
-
-        {/* Animated Ambient Glows */}
-        <motion.div
-          style={{ y: useTransform(smoothProgress, [0, 1], [0, 500]) }}
-          className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-emerald-500/10 blur-[120px] rounded-full"
-        />
-        <motion.div
-          style={{ y: useTransform(smoothProgress, [0, 1], [0, -400]) }}
-          className="absolute top-[40%] -right-[10%] w-[35%] h-[35%] bg-sky-500/10 blur-[120px] rounded-full"
-        />
-        <motion.div
-          style={{ y: useTransform(smoothProgress, [0, 1], [0, 200]) }}
-          className="absolute bottom-[10%] left-[20%] w-[30%] h-[30%] bg-primary/5 blur-[120px] rounded-full"
-        />
-      </div>
+    <div ref={containerRef} className="relative min-h-screen selection:bg-primary selection:text-primary-foreground overflow-x-hidden">
 
       <Navbar />
 
@@ -97,11 +78,6 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center pt-24 overflow-hidden">
-        {/* Subtle Ambient Glows */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[140px]" />
-          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-sky-500/5 rounded-full blur-[140px]" />
-        </div>
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full z-10">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
@@ -243,29 +219,29 @@ export default function Home() {
       </section>
 
       {/* Advanced Capabilities & 3D Visualization */}
-      <section className="py-32 lg:py-60 bg-background relative overflow-hidden">
+      <section className="py-20 lg:py-60 bg-background relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-32 items-center mb-24 lg:mb-48 text-center lg:text-left">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-32 items-center mb-16 lg:mb-48 text-center lg:text-left">
             <div className="order-2 lg:order-1 flex justify-center">
-              <ScrollReveal direction="right">
+              <ScrollReveal direction="up">
                 <CoreEngine3D />
               </ScrollReveal>
             </div>
 
-            <div className="order-1 lg:order-2 space-y-8 lg:space-y-12">
-              <ScrollReveal direction="left">
-                <h2 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.85] italic">
+            <div className="order-1 lg:order-2 space-y-6 lg:space-y-12">
+              <ScrollReveal direction="up">
+                <h2 className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] italic">
                   THE CORE <br />
                   <span className="text-gradient">ENGINE.</span>
                 </h2>
               </ScrollReveal>
-              <ScrollReveal direction="left" delay={0.2}>
+              <ScrollReveal direction="up" delay={0.2}>
                 <p className="text-lg md:text-2xl text-muted-foreground/80 font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
                   Our neural infrastructure balances local processing with global consensus. Every node in the GreenGlitch network contributes to a real-time, self-healing urban nervous system.
                 </p>
               </ScrollReveal>
 
-              <ScrollReveal direction="left" delay={0.3}>
+              <ScrollReveal direction="up" delay={0.3}>
                 <LiveImpactChart />
               </ScrollReveal>
             </div>

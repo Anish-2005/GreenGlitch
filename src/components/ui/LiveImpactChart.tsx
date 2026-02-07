@@ -118,18 +118,18 @@ export function LiveImpactChart() {
     }, [data, isInView]);
 
     return (
-        <div ref={containerRef} className="w-full bg-card/30 backdrop-blur-xl border border-border/50 rounded-[2.5rem] p-8 overflow-hidden transition-colors duration-500">
-            <div className="flex justify-between items-start mb-8">
+        <div ref={containerRef} className="w-full bg-card/30 backdrop-blur-xl border border-border/50 rounded-[2rem] md:rounded-[2.5rem] p-4 md:p-8 overflow-hidden transition-colors duration-500">
+            <div className="flex justify-between items-start mb-4 md:mb-8">
                 <div>
-                    <h4 className="text-xl font-black tracking-tight text-foreground">System Impact</h4>
-                    <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Active Resolution Efficiency</p>
+                    <h4 className="text-lg md:text-xl font-black tracking-tight text-foreground">System Impact</h4>
+                    <p className="text-[10px] md:text-sm font-bold text-muted-foreground uppercase tracking-widest">Active Resolution Efficiency</p>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 text-[10px] font-black uppercase tracking-tighter">
-                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <div className="flex items-center gap-2 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 text-[8px] md:text-[10px] font-black uppercase tracking-tighter">
+                    <div className="h-1 w-1 md:h-1.5 md:w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     Live
                 </div>
             </div>
-            <svg ref={svgRef} className="overflow-visible text-foreground" />
+            <svg ref={svgRef} className="overflow-visible text-foreground min-h-[200px]" />
         </div>
     );
 }
