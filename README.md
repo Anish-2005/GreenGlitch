@@ -125,6 +125,10 @@ src/
 
 ---
 
+## 🤝 Contributing
+
+Contributions are welcome! Whether it's fixing a bug, suggesting a feature, or improving documentation, we appreciate your help. Please see our [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
